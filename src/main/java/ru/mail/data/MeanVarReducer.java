@@ -8,22 +8,24 @@ import java.io.IOException;
 public class MeanVarReducer extends Reducer<Text, CountMeanVarWritable, Text, CountMeanVarWritable> {
     @Override
     public void reduce(Text key, Iterable<CountMeanVarWritable> values, Context context) throws IOException, InterruptedException {
-        double mean = 0;
-        int count = 0;
-        double var = 0;
+        int currentCount = 0;
+        double currentMean = 0;
+        double currentVar = 0;
 
         for (CountMeanVarWritable tuple : values) {
-            double priceMean = tuple.mean();
-            int priceCount = tuple.count();
-            double priceVar = tuple.var();
+            int newCount = tuple.count();
+            double newMean = tuple.mean();
+            double newVar = tuple.var();
 
-            var = (priceVar * priceCount + count * var) / (count + priceCount) + priceCount * count * Math.pow((mean - priceMean) / (count + priceCount), 2);
-            mean = (priceMean * priceCount + mean * count) / (count + priceCount);
+            currentVar = (newVar * newCount + currentCount * currentVar) / (currentCount + newCount) +
+                    newCount * currentCount * Math.pow((currentMean - newMean) / (currentCount + newCount), 2);
 
-            count += priceCount;
+            currentMean = (newMean * newCount + currentMean * currentCount) / (currentCount + newCount);
+
+            currentCount += newCount;
         }
 
-        CountMeanVarWritable tuple = new CountMeanVarWritable(count, mean, var);
+        CountMeanVarWritable tuple = new CountMeanVarWritable(currentCount, currentMean, currentVar);
         context.write(key, tuple);
     }
 }

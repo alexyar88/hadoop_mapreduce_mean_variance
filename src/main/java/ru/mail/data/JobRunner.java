@@ -25,6 +25,7 @@ public class JobRunner {
         job.setJarByClass(JobRunner.class);
 
         job.setMapperClass(RowMapper.class);
+        // Combiner и Reducer в нашем случае будут одинаковые
         job.setCombinerClass(MeanVarReducer.class);
         job.setReducerClass(MeanVarReducer.class);
 
