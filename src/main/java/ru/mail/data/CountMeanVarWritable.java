@@ -41,13 +41,11 @@ public class CountMeanVarWritable implements Writable {
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
-//        str.append("[");
         str.append(this.countWritable.get());
         str.append("\t");
         str.append(this.meanWritable.get());
         str.append("\t");
         str.append(this.varWritable.get());
-//        str.append("]");
         return str.toString();
     }
 

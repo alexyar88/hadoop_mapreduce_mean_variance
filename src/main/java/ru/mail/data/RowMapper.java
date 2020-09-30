@@ -29,9 +29,7 @@ public class RowMapper extends Mapper<Object, Text, Text, CountMeanVarWritable> 
                 double price = Double.parseDouble(fields[fields.length - (FIELDS_COUNT - FIELD_POSITION)]);
                 CountMeanVarWritable tuple = new CountMeanVarWritable(1, price, 0);
                 context.write(countMeanVarKey, tuple);
-            } catch (Exception e) {
-                System.out.println("Mapper exception:");
-                System.out.println(e.getMessage());
+            } catch (NumberFormatException ignored) {
             }
 
         }
