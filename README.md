@@ -1,3 +1,1 @@
-# Пример MapReduce для Hadoop
-
-Считает среднее и дисперсию для поля в датасете
+# Hadoop MapReduce Variance and Mean computation example in Java
